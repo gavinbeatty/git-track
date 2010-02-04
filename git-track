@@ -1,0 +1,160 @@
+#!/bin/sh
+
+## version: 1.0
+
+## git track: a simple shell script to ease the unnecessarily complex task of
+## tracking a branch, i.e., setting up a local branch to track a remote one, all
+## in one go.
+## 
+## In other words, set up <local_branch> to track
+## refs/remote/<remote>/<remote_branch>
+## 
+##     Usage: git track [-v] [-n] [-f] [-b <remote_branch>] [[<remote>] <local_branch>]
+##        or: git track [-v] [-n] -d <local_branch>
+## 
+##     <local_branch> is the local branch. If -b <remote_branch> is not used,
+##     <remote_branch> is <local_branch>
+## 
+##     <remote> is the remote to track to -- defaults to origin
+## 
+##     -v -- print each command as it is run.
+##     -n -- don't run any commands, just print them.
+##     -f -- don't do any checks on whether <local_branch> is tracking a branch
+##           already.
+##     -d -- stop <local_branch> from tracking anything.
+##
+## git track Copyright 2010 Gavin Beatty <gavinbeatty@gmail.com>.
+## 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or (at
+## your option) any later version.
+## 
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You can find the GNU General Public License at:
+## http://www.gnu.org/licenses/
+
+set -u
+set -e
+
+usage() {
+    echo "Usage: git track [-v] [-n] [-f] [-b <remote_branch>] [[<remote>] <local_branch>]"
+    echo "   or: git track [-v] [-n] -d <local_branch>"
+}
+die() {
+    echo "error: $@" >&2
+    exit 1
+}
+
+doit() {
+    if test -n "$verbose" ; then
+        echo "$@"
+    fi
+    if test -z "$dryrun" ; then
+        "$@"
+    fi
+}
+full_name() {
+    git rev-parse --symbolic-full-name "$@"
+}
+
+main() {
+    dryrun=""
+    force=""
+    verbose=""
+    delete=""
+    if ! type "git" 1>/dev/null 2>&1 ; then
+        die "Please install git."
+    fi
+    if ! git rev-parse --git-dir >/dev/null 2>&1 ; then
+        die "Not a git repository (or any of the parent directories)"
+    fi
+
+    while getopts ":hnfvdb:" opt ; do
+        case "$opt" in
+        h)
+            usage
+            exit 0
+            ;;
+        n)
+            dryrun="true"
+            verbose="true"
+            ;;
+        f)
+            force="true"
+            ;;
+        v)
+            verbose="true"
+            ;;
+        d)
+            delete="true"
+            ;;
+        b)
+            remote_branch="$OPTARG"
+            ;;
+        \?)
+            die "invalid option: -${OPTARG}"
+            ;;
+        *)
+            die "invalid getopts return: $opt"
+            ;;
+        esac
+    done
+    shift "$(expr "$OPTIND" - 1)"
+    OPTIND=1
+
+    if test -n "$delete" ; then
+        if test $# -gt 0 ; then
+            local_branch="$1"
+        else
+            local_branch="$(full_name "HEAD")"
+            local_branch="$(echo "$local_branch" | sed -e 's|^refs/heads/||')"
+        fi
+        # don't worry about deleting the section - an empty section is ok
+        # and deleting other options in the section by removing it entirely
+        # is too destructive
+        doit git config --unset "branch.${local_branch}.remote" || e=$?
+        doit git config --unset "branch.${local_branch}.merge" || e=$?
+    else
+        if test $# -gt 0 ; then
+            remote="$1"
+        fi
+        if test $# -gt 1 ; then
+            local_branch="$2"
+        else
+            local_branch="$(full_name "HEAD")"
+            local_branch="$(echo "$local_branch" | sed -e 's|^refs/heads/||')"
+        fi
+        remote="${remote:-origin}"
+        if test -z "${remote_branch:-}" ; then
+            remote_branch="$local_branch"
+        else
+            remote_branch="$(echo "$remote_branch" | sed -e 's|^refs/heads/||')"
+        fi
+
+        if test -z "$force" ; then
+            remote_ref="$(git show-ref "remotes/${remote}/${remote_branch}" || e=$?)"
+            if test -z "$remote_ref" ; then
+                die "Remote branch ${remote_branch} does not exist on ${remote}."
+            fi
+            remote_config="$(git config "branch.${local_branch}.merge")"
+            if test -n "$remote_config" ; then
+                die "Local branch ${local_branch} is already tracking ${remote_config}."
+            fi
+        fi
+
+        doit git config "branch.${local_branch}.remote" "$remote"
+        doit git config "branch.${local_branch}.merge" "refs/heads/${remote_branch}"
+    fi
+}
+
+trap "echo \"caught SIGINT\" ; exit 1 ;" INT
+trap "echo \"caught SIGTERM\" ; exit 1 ;" TERM
+trap "echo \"caught SIGHUP\" ; exit 1 ;" HUP
+
+main "$@"
+

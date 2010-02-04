@@ -1,0 +1,75 @@
+GIT-TRACK(1)
+============
+:man version: 1.0
+
+NAME
+-----
+git-track - set up a local branch to track a remote branch
+
+
+SYNOPSIS
+--------
+*git track* [*-v*] [*-n*] [*-f*] [*-b* '<remote_branch>'] ['<remote>' ['<local_branch>']]
+*git track* [*-v*] [*-n*] *-d* '<local_branch>'
+
+
+DESCRIPTION
+-----------
+A simple shell script to ease the unnecessarily complex task of tracking a
+branch.
+
+
+OPTIONS
+-------
+*-v*::
+    Print the git commands before executing them.
+
+*-n*::
+    Don't run any of the git commands. Only print them, as in *-v*.
+
+*-f*::
+    Don\'t do any checks on whether '<local_branch>' is tracking a branch already
+    or that '<remote_branch>' exists.
+
+*-b* '<remote_branch>'::
+    Don\'t reuse '<local_branch>' for the remote branch and use '<remote_branch>'.
+
+*-d*::
+    Stop '<local_branch>' from tracking anything.
+
+`<remote>`::
+    The remote where the branch you want to track exists.
+
+`<local_branch>`::
+    The local branch that will track the remote. If none given,
+    use \`git symbolic-ref HEAD\`.
+
+
+EXIT STATUS
+-----------
+0 on success and non-zero on failure.
+
+
+AUTHOR
+------
+Gavin Beatty <gavinbeatty@gmail.com>
+
+
+RESOURCES
+---------
+Website: <http://code.google.com/p/git-track/>
+
+
+REPORTING BUGS
+--------------
+Please report all bugs and wishes to <gavinbeatty@gmail.com>
+
+
+COPYING
+-------
+git-track Copyright \(C) 2010 Gavin Beatty, <gavinbeatty@gmail.com>
+
+Free use of this software is granted under the terms of the GNU General Public
+License version 3, or at your option, any later version. (GPLv3+)
+
+
