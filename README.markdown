@@ -5,8 +5,8 @@ Gavin Beatty <gavinbeatty@gmail.com>
 git track: a simple shell script to ease the unnecessarily complex task of
 tracking a branch, i.e., setting up a local branch to track a remote one.
 
-In other words, set up <local_branch> to track
-refs/remote/<remote>/<remote_branch>
+In other words, set up `<local_branch>` to track
+`refs/remote/<remote>/<remote_branch>`
 
     Usage: git track [-v] [-n] [-f] [-b <remote_branch>] [<remote> [<local_branch>]]
        or: git track [-v] [-n] -d <local_branch>
