@@ -553,8 +553,8 @@ footnotes: function () {
 </div>
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><strong>git track</strong> [<strong>-v</strong>] [<strong>-n</strong>] [<strong>-f</strong>] [<strong>-b</strong> <em>&lt;remote_branch&gt;</em>] [<em>&lt;remote&gt;</em> [<em>&lt;local_branch&gt;</em>]]
-<strong>git track</strong> [<strong>-v</strong>] [<strong>-n</strong>] <strong>-d</strong> <em>&lt;local_branch&gt;</em></p></div>
+<div class="paragraph"><p><strong>git track</strong> [<em>OPTIONS</em>] [<em>&lt;remote&gt;</em>]
+<strong>git track</strong> [<em>OPTIONS</em>] <strong>-l</strong> <em>&lt;local_branch&gt;</em> <strong>-d</strong></p></div>
 </div>
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
@@ -565,7 +565,7 @@ branch.</p></div>
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
-<strong>-v</strong>
+<strong>-v, --verbose</strong>
 </dt>
 <dd>
 <p>
@@ -573,7 +573,7 @@ branch.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
-<strong>-n</strong>
+<strong>-n, --dry-run</strong>
 </dt>
 <dd>
 <p>
@@ -581,7 +581,7 @@ branch.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
-<strong>-f</strong>
+<strong>-f, --force</strong>
 </dt>
 <dd>
 <p>
@@ -590,7 +590,7 @@ branch.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
-<strong>-b</strong> <em>&lt;remote_branch&gt;</em>
+<strong>-r, --remote-branch</strong> <em>&lt;remote_branch&gt;</em>
 </dt>
 <dd>
 <p>
@@ -598,7 +598,16 @@ branch.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
-<strong>-d</strong>
+<strong>-l, --local-branch</strong> <em>&lt;local_branch&gt;</em>
+</dt>
+<dd>
+<p>
+    The local branch that will track the remote. If none given,
+    use `git symbolic-ref HEAD\`.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-d, --delete</strong>
 </dt>
 <dd>
 <p>
@@ -611,15 +620,6 @@ branch.</p></div>
 <dd>
 <p>
     The remote where the branch you want to track exists.
-</p>
-</dd>
-<dt class="hdlist1">
-<tt>&lt;local_branch&gt;</tt>
-</dt>
-<dd>
-<p>
-    The local branch that will track the remote. If none given,
-    use `git symbolic-ref HEAD\`.
 </p>
 </dd>
 </dl></div>
@@ -650,7 +650,7 @@ License version 3, or at your option, any later version. (GPLv3+)</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2010-02-04 20:45:51 CEST
+Last updated 2010-02-16 00:21:03 CEST
 </div>
 </div>
 </body>

@@ -2,12 +2,12 @@
 .\"     Title: git-track
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
-.\"      Date: 02/04/2010
+.\"      Date: 02/16/2010
 .\"    Manual: \ \&
-.\"    Source: \ \& 1.0
+.\"    Source: \ \& 2.0
 .\"  Language: English
 .\"
-.TH "GIT\-TRACK" "1" "02/04/2010" "\ \& 1\&.0" "\ \&"
+.TH "GIT\-TRACK" "1" "02/16/2010" "\ \& 2\&.0" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * set default formatting
 .\" -----------------------------------------------------------------
@@ -22,24 +22,24 @@
 git-track \- set up a local branch to track a remote branch
 .SH "SYNOPSIS"
 .sp
-\fBgit track\fR [\fB\-v\fR] [\fB\-n\fR] [\fB\-f\fR] [\fB\-b\fR \fI<remote_branch>\fR] [\fI<remote>\fR [\fI<local_branch>\fR]] \fBgit track\fR [\fB\-v\fR] [\fB\-n\fR] \fB\-d\fR \fI<local_branch>\fR
+\fBgit track\fR [\fIOPTIONS\fR] [\fI<remote>\fR] \fBgit track\fR [\fIOPTIONS\fR] \fB\-l\fR \fI<local_branch>\fR \fB\-d\fR
 .SH "DESCRIPTION"
 .sp
 A simple shell script to ease the unnecessarily complex task of tracking a branch\&.
 .SH "OPTIONS"
 .PP
-\fB\-v\fR
+\fB\-v, \-\-verbose\fR
 .RS 4
 Print the git commands before executing them\&.
 .RE
 .PP
-\fB\-n\fR
+\fB\-n, \-\-dry\-run\fR
 .RS 4
 Don\(cqt run any of the git commands\&. Only print them, as in
 \fB\-v\fR\&.
 .RE
 .PP
-\fB\-f\fR
+\fB\-f, \-\-force\fR
 .RS 4
 Don\(cqt do any checks on whether
 \fI<local_branch>\fR
@@ -48,7 +48,7 @@ is tracking a branch already or that
 exists\&.
 .RE
 .PP
-\fB\-b\fR \fI<remote_branch>\fR
+\fB\-r, \-\-remote\-branch\fR \fI<remote_branch>\fR
 .RS 4
 Don\(cqt reuse
 \fI<local_branch>\fR
@@ -56,7 +56,12 @@ for the remote branch and use
 \fI<remote_branch>\fR\&.
 .RE
 .PP
-\fB\-d\fR
+\fB\-l, \-\-local\-branch\fR \fI<local_branch>\fR
+.RS 4
+The local branch that will track the remote\&. If none given, use `git symbolic\-ref HEAD\e`\&.
+.RE
+.PP
+\fB\-d, \-\-delete\fR
 .RS 4
 Stop
 \fI<local_branch>\fR
@@ -66,11 +71,6 @@ from tracking anything\&.
 <remote>
 .RS 4
 The remote where the branch you want to track exists\&.
-.RE
-.PP
-<local_branch>
-.RS 4
-The local branch that will track the remote\&. If none given, use `git symbolic\-ref HEAD\e`\&.
 .RE
 .SH "EXIT STATUS"
 .sp

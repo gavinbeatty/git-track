@@ -1,6 +1,6 @@
 GIT-TRACK(1)
 ============
-:man version: 1.0
+:man version: 2.0
 
 NAME
 -----
@@ -9,8 +9,8 @@ git-track - set up a local branch to track a remote branch
 
 SYNOPSIS
 --------
-*git track* [*-v*] [*-n*] [*-f*] [*-b* '<remote_branch>'] ['<remote>' ['<local_branch>']]
-*git track* [*-v*] [*-n*] *-d* '<local_branch>'
+*git track* ['OPTIONS'] ['<remote>']
+*git track* ['OPTIONS'] *-l* '<local_branch>' *-d* 
 
 
 DESCRIPTION
@@ -21,28 +21,28 @@ branch.
 
 OPTIONS
 -------
-*-v*::
+*-v, --verbose*::
     Print the git commands before executing them.
 
-*-n*::
+*-n, --dry-run*::
     Don't run any of the git commands. Only print them, as in *-v*.
 
-*-f*::
+*-f, --force*::
     Don\'t do any checks on whether '<local_branch>' is tracking a branch already
     or that '<remote_branch>' exists.
 
-*-b* '<remote_branch>'::
+*-r, --remote-branch* '<remote_branch>'::
     Don\'t reuse '<local_branch>' for the remote branch and use '<remote_branch>'.
 
-*-d*::
+*-l, --local-branch* '<local_branch>'::
+    The local branch that will track the remote. If none given,
+    use \`git symbolic-ref HEAD\`.
+
+*-d, --delete*::
     Stop '<local_branch>' from tracking anything.
 
 `<remote>`::
     The remote where the branch you want to track exists.
-
-`<local_branch>`::
-    The local branch that will track the remote. If none given,
-    use \`git symbolic-ref HEAD\`.
 
 
 EXIT STATUS

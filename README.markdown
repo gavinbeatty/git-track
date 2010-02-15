@@ -8,33 +8,65 @@ tracking a branch, i.e., setting up a local branch to track a remote one.
 In other words, set up `<local_branch>` to track
 `refs/remote/<remote>/<remote_branch>`
 
-    Usage: git track [-v] [-n] [-f] [-b <remote_branch>] [<remote> [<local_branch>]]
-       or: git track [-v] [-n] -d <local_branch>
-
-    <local_branch> is the local branch. If -b <remote_branch> is not used,
-    <remote_branch> is <local_branch>
-
-    <remote> is the remote to track to -- defaults to origin
-
-    -v -- print each command as it is run.
-    -n -- don't run any commands, just print them.
-    -f -- don't do any checks on whether <local_branch> is tracking a branch
-          already or that <remote_branch> exists.
-    -b -- don't reuse <local_branch> for the remote branch and use
-          <remote_branch>.
-    -d -- stop <local_branch> from tracking anything.
-
-    <remote> -- the remote where the branch you want to track exists.
-
-    <local_branch> -- the local branch that will track the remote. If none
-    given, use `git symbolic-ref HEAD`.
+    NAME
+           git-track - set up a local branch to track a remote branch
+    
+    SYNOPSIS
+           git track [OPTIONS] [<remote>] git track [OPTIONS] -l <local_branch> -d
+    
+    DESCRIPTION
+           A simple shell script to ease the unnecessarily complex task of
+           tracking a branch.
+    
+    OPTIONS
+           -v, --verbose
+               Print the git commands before executing them.
+    
+           -n, --dry-run
+               Don’t run any of the git commands. Only print them, as in -v.
+    
+           -f, --force
+               Don’t do any checks on whether <local_branch> is tracking a branch
+               already or that <remote_branch> exists.
+    
+           -r, --remote-branch <remote_branch>
+               Don’t reuse <local_branch> for the remote branch and use
+               <remote_branch>.
+    
+           -l, --local-branch <local_branch>
+               The local branch that will track the remote. If none given, use
+               `git symbolic-ref HEAD\`.
+    
+           -d, --delete
+               Stop <local_branch> from tracking anything.
+    
+           <remote>
+               The remote where the branch you want to track exists.
+    
+    EXIT STATUS
+           0 on success and non-zero on failure.
+    
+    AUTHOR
+           Gavin Beatty <gavinbeatty@gmail.com>
+    
+    RESOURCES
+           Website: http://code.google.com/p/git-track/
+    
+    REPORTING BUGS
+           Please report all bugs and wishes to <gavinbeatty@gmail.com>
+    
+    COPYING
+           git-track Copyright (C) 2010 Gavin Beatty, <gavinbeatty@gmail.com>
+    
+           Free use of this software is granted under the terms of the GNU General
+           Public License version 3, or at your option, any later version.
+           (GPLv3+)
 
 
 Dependencies
 ------------
 
 * sh: in POSIX
-* getopts: in POSIX.
 * sed: in POSIX
 * git: it is very much not in POSIX.
 
