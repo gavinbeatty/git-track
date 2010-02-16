@@ -1,33 +1,57 @@
 prefix=/usr/local
 DESTDIR=
 
-all: doc
+RM = rm -f
+TAR = tar
+ZIP = zip
+INSTALL = install
+GIT = git
+BZIP2 = bzip2
+ASCIIDOC = asciidoc
+A2X = a2x
+SED = sed
 
-doc/git-track.1: doc/git-track.1.txt
-	a2x -f manpage -L doc/git-track.1.txt
+default: all
+.PHONY: default
 
-doc/git-track.1.html: doc/git-track.1.txt
-	asciidoc doc/git-track.1.txt
+.SUFFIXES:
 
-doc/git-track.txt: doc/git-track.1
-	groff -t -e -P -c -Tutf8 -mandoc doc/git-track.1 | col -bx \
-	> doc/git-track.txt
+PROJECT = git-multipush
+-include gen-version.mk
+-include dist.mk
+-include man2txt.mk
 
-doc: doc/git-track.1 doc/git-track.1.html doc/git-track.txt
-
-clean:
-	rm -f doc/git-track.1 doc/git-track.1.html
-
-install-bin: git-track
-	install -d -m 0755 $(DESTDIR)$(prefix)/bin
-	install -m 0755 git-track $(DESTDIR)$(prefix)/bin
-
-install-doc: doc/git-track.1 doc/git-track.1.html doc/git-track.txt
-	install -d -m 0755 $(DESTDIR)$(prefix)/share/man/man1
-	install -m 0644 doc/git-track.1 $(DESTDIR)$(prefix)/share/man/man1/
-	install -m 0644 doc/git-track.1.html $(DESTDIR)$(prefix)/share/man/man1/
-	install -d -m 0755 $(DESTDIR)$(prefix)/share/doc/git-track/
-	install -m 0644 doc/git-track.txt $(DESTDIR)$(prefix)/share/doc/git-track/
+all: bin doc
 
 install: install-bin install-doc
+
+clean: clean-bin clean-doc
+
+doc/git-track.1: doc/git-track.1.txt
+	$(A2X) -f manpage -L doc/git-track.1.txt
+doc/git-track.1.html: doc/git-track.1.txt
+	$(ASCIIDOC) doc/git-track.1.txt
+doc/git-track.txt: doc/git-track.1
+	$(call man2txt,doc/git-track.1,doc/git-track.txt)
+clean-doc:
+	$(RM) doc/git-track.1 doc/git-track.1.html doc/git-track.txt
+doc: doc/git-track.1 doc/git-track.1.html doc/git-track.txt
+
+git-track: git-track.sh $(VERSION_DEP)
+	$(SED) -e 's/^# @VERSION@/VERSION=$(VERSION)/' git-track.sh > git-track
+	@chmod +x git-track
+bin: git-track
+clean-bin:
+	$(RM) git-track
+install-bin: git-track
+	$(INSTALL) -d -m 0755 $(DESTDIR)$(prefix)/bin
+	$(INSTALL) -m 0755 git-track $(DESTDIR)$(prefix)/bin
+
+install-doc: doc/git-track.1 doc/git-track.1.html doc/git-track.txt
+	$(INSTALL) -d -m 0755 $(DESTDIR)$(prefix)/share/man/man1
+	$(INSTALL) -m 0644 doc/git-track.1 $(DESTDIR)$(prefix)/share/man/man1
+	$(INSTALL) -m 0644 doc/git-track.1.html $(DESTDIR)$(prefix)/share/man/man1
+	$(INSTALL) -d -m 0755 $(DESTDIR)$(prefix)/share/doc/git-track
+	$(INSTALL) -m 0644 doc/git-track.txt $(DESTDIR)$(prefix)/share/doc/git-track
+	$(INSTALL) -m 0644 README.markdown $(DESTDIR)$(prefix)/share/doc/git-track
 

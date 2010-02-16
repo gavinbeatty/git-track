@@ -17,6 +17,8 @@
 
 set -e
 
+# @VERSION@
+
 SUBDIRECTORY_OK=Yes
 OPTIONS_KEEPDASHDASH=""
 OPTIONS_SPEC="\
@@ -34,7 +36,7 @@ version print version info in 'git track version \$version' format"
 . "$(git --exec-path)/git-sh-setup"
 
 version_print() {
-    echo "git track version 2.0"
+    echo "git track version ${VERSION}"
 }
 
 doit() {
