@@ -16,7 +16,7 @@ endif
 ifeq ($(strip $($(PROJECT_VERSION_VAR))),)
 $(PROJECT_VERSION_VAR)_DEP=$(PROJECT_VERSION_VAR)
 $(PROJECT_VERSION_VAR): gen-version.sh .git/$(shell $(GIT) symbolic-ref HEAD)
-	@gen-version.sh $(PROJECT) $(PROJECT_VERSION_VAR) $(PROJECT_VERSION_VAR)
+	@./gen-version.sh $(PROJECT) $(PROJECT_VERSION_VAR) $(PROJECT_VERSION_VAR)
 -include $(PROJECT_VERSION_VAR)
 else
 $(PROJECT_VERSION_VAR)_DEP=
