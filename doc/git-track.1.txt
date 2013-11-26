@@ -1,6 +1,5 @@
 GIT-TRACK(1)
 ============
-:man version: 2.0
 
 NAME
 -----
@@ -57,7 +56,7 @@ Gavin Beatty <gavinbeatty@gmail.com>
 
 RESOURCES
 ---------
-Website: <http://code.google.com/p/git-track/>
+Website: <https://github.com/gavinbeatty/git-track>
 
 
 REPORTING BUGS
@@ -71,5 +70,3 @@ git-track Copyright \(C) 2010 Gavin Beatty, <gavinbeatty@gmail.com>
 
 Free use of this software is granted under the terms of the GNU General Public
 License version 3, or at your option, any later version. (GPLv3+)
-
-
