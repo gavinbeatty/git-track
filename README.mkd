@@ -50,7 +50,7 @@ In other words, set up `<local_branch>` to track
            Gavin Beatty <gavinbeatty@gmail.com>
     
     RESOURCES
-           Website: http://code.google.com/p/git-track/
+           Website: https://github.com/gavinbeatty/git-track
     
     REPORTING BUGS
            Please report all bugs and wishes to <gavinbeatty@gmail.com>
@@ -94,10 +94,12 @@ http://www.gnu.org/licenses/
 
 Install
 -------
-Default prefix is /usr/local:
+
+Default prefix is `/usr/local`:
+
     sudo make install
 
 Select your own prefix:
-    make install prefix=~/.local
 
+    make install prefix=~/.local
 
